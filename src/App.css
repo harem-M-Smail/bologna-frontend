@@ -10,3 +10,10 @@
   align-items: center;
   gap: 2rem;
 }
+
+.center-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
