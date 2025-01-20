@@ -1,19 +1,8 @@
 import React from 'react';
 import { Button, Layout, Menu, theme } from 'antd';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, useNavigation } from 'react-router-dom';
 
 const { Header, Content } = Layout;
-
-const NavLinks = () => {
-    const nav = useNavigate()
-    return (
-        <>
-            <Button onClick={() => nav('/')}>Home</Button>
-            <Button onClick={() => nav('/results')}>Results</Button>
-
-        </>
-    )
-}
 
 const Root: React.FC = () => {
     const {
@@ -22,7 +11,9 @@ const Root: React.FC = () => {
     const navLinks = [{ name: 'Home', path: '/', key: 1 },
     { name: 'Results', path: '/Results', key: 2 },
     { name: 'Modules', path: '/Modules', key: 3 },
-    { name: 'Module Results', path: '/Module-Results', key: 4 },]
+    { name: 'Module Results', path: '/Module-Results', key: 4 },
+    { name: 'Profile', path: '/Profile', key: 5 },
+    ]
     const items: any = navLinks.map(navLInk => ({
         label: <NavLink to={navLInk.path} key={navLInk.key}>{navLInk.name}</NavLink>
     }))
@@ -47,6 +38,7 @@ const Root: React.FC = () => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
+                    <LoadingIndicator />
                     <Outlet />
                 </div>
             </Content>
@@ -55,3 +47,20 @@ const Root: React.FC = () => {
 };
 
 export default Root;
+
+import { Flex, Spin } from 'antd';
+
+const LoadingIndicator: React.FC = () => {
+    const navigation = useNavigation();
+
+    // Check if there is an ongoing navigation
+    const isLoading = navigation.state === 'loading';
+
+    return (
+        isLoading && (
+            <Flex style={{ width: "100%", justifyContent: 'center' }} align="center" gap="middle">
+                <Spin size="large" />
+            </Flex>
+        )
+    )
+};

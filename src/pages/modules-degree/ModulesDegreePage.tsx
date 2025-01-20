@@ -1,27 +1,7 @@
-import { Select, Table } from 'antd';
-import { redirect, useLoaderData } from 'react-router-dom';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-
-// const data = useLoaderData()
-// console.log(data)
-// Example Data
-const activities = [
-
-];
-
-// Transform Data
-const transformedData = activities.flatMap((activity, activityIndex) =>
-    activity.tasks.map((task, taskIndex) => ({
-        key: `${activityIndex}-${taskIndex}`,
-        taskName: activity.taskName,
-        weight: activity.weight,
-        taskNumber: task.taskNumber,
-        degree: task.degree,
-        instructorDegree: task.instructorDegree,
-        instructorWeight: task.instructorWeight,
-    }))
-);
+import { Select, Table } from "antd";
+import { useLoaderData } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 // Define Columns
 const columns = [
@@ -29,6 +9,14 @@ const columns = [
         title: "Task Name",
         dataIndex: "taskName",
         key: "taskName",
+        render: (text, record) => ({
+            props: {
+                style: {
+                    backgroundColor: record.isTotal ? "#F3F4FD" : "transparent",
+                },
+            },
+            children: text,
+        }),
     },
     {
         title: "Degree",
@@ -39,79 +27,85 @@ const columns = [
         title: "Instructor Degree",
         dataIndex: "instructorDegree",
         key: "instructorDegree",
-    }
+        render: (text, record) => (record.isTotal ? null : text), // Hide in total rows
+    },
 ];
 
-// Subject Colors
-const subjectColors = {
-    Quiz: "#ffffff",
-    Homework: "#e6f7ff",
-    Report: "#e6f7ff",
-    Midterm_Theory: "#e6f7ff",
-    Class_Activity: "#e6f7ff",
-
-};
-
-// Ant Design Table
+// Modules Degree Page Component
 const ModulesDegreePage = () => {
-    const data = useLoaderData()
-    const [subject, setSubject] = useState(data[0].name)
-    console.log(subject)
+    const data = useLoaderData(); // Load the data
+    const [subject, setSubject] = useState(data[0]?.name || ""); // Set initial subject
+
+    // Transform Data with Totals
+    const transformedData = [];
+    let grandTotal = 0; // To calculate the overall total
+
+    const selectedSubject = data.find((item) => item.name === subject);
+    if (selectedSubject) {
+        selectedSubject.activities.forEach((activity) => {
+            let totalDegree = 0;
+
+            activity.tasks.forEach((task, index) => {
+                totalDegree += task.degree;
+
+                transformedData.push({
+                    key: `${activity.taskName}-${index}`,
+                    taskName: activity.taskName,
+                    degree: `${task.degree} / ${activity.weight}`,
+                    instructorDegree: `${task.instructorDegree} / ${task.instructorWeight}`,
+                });
+            });
+
+            // Add Average Row only if there are multiple tasks
+            if (activity.tasks.length > 1) {
+                const averageDegree = (totalDegree / activity.tasks.length).toFixed(2); // Average
+                transformedData.push({
+                    key: `average-${activity.taskName}`,
+                    taskName: activity.taskName, // Keep the original task name
+                    degree: `${averageDegree} / ${activity.weight}`,
+                    isTotal: true, // Flag to identify total rows
+                });
+            }
+
+            // Add to grand totals
+            grandTotal += totalDegree;
+        });
+
+        // Add Final Row for Overall Total
+        transformedData.push({
+            key: "final-total",
+            taskName: "Total",
+            degree: `${grandTotal}`,
+            isTotal: true,
+        });
+    }
+
     return (
         <>
-            <div className="center-items">
+            <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <Select
                     defaultValue={subject}
-                    style={{ width: 120 }}
-                    onChange={() => 0}
-                    options={
-                        data.map(subject => {
-                            return {
-                                value: subject.name,
-                                label: subject.name
-                            }
-                        })
-                    }
+                    style={{ width: 200 }}
+                    onChange={(value) => setSubject(value)}
+                    options={data.map((subject) => ({
+                        value: subject.name,
+                        label: subject.name,
+                    }))}
                 />
             </div>
+            <p>{`you have ${selectedSubject.totalAbsentHour} hours of apsent, the limit is ${selectedSubject.absentLimit} hours`}</p>
             <Table
                 columns={columns}
                 dataSource={transformedData}
-                rowClassName={(record) => {
-                    // Apply color based on task name
-                    return subjectColors[record.taskName]
-                        ? `row-color-${record.taskName}`
-                        : "";
-                }}
                 pagination={false}
+                style={{ border: "1px solid #f0f0f0", borderRadius: "8px" }}
             />
         </>
-
     );
 };
 
-// Custom CSS for Row Colors
-const style = document.createElement("style");
-style.innerHTML = `
-  .row-color-Homework {
-    background-color: #e6f7ff;
-  }
-  .row-color-Report {
-    background-color: #f6ffed;
-  }
-    .row-color-Midterm_Theory {
-    background-color:rgb(255, 230, 238);
-  }
-    .row-color-Quiz {
-    background-color:rgb(230, 255, 233);;
-  }
-    .row-color-Class_Activity {
-    background-color:rgb(230, 255, 250);
-  }
-`;
-document.head.appendChild(style);
-
 export default ModulesDegreePage;
+
 export const ModulesDegreeLoader = async () => {
     axios.defaults.withCredentials = true;
     const response = await axios.get(
