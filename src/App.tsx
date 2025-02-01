@@ -9,6 +9,9 @@ import ErrorPage from './pages/support-pages/ErrorPage'
 import ModulesDegreePage, { ModulesDegreeLoader } from './pages/modules-degree/ModulesDegreePage'
 import ProfilePage, { profilePageLoader } from './pages/profile/ProfilePage'
 import HomePage from './pages/home/HomePage'
+import EnrollementPage, { enrollmentPageLoader } from './pages/Enrollment/EnrollmentPage'
+import ExamsPage, { examsPageLoader } from './pages/exams/ExamsPage'
+import LecturerProfilePage, { lecturerProfilePageLoader } from './users/lecturer/pages/LecturerProfilePage'
 
 function App() {
   const router = createBrowserRouter(
@@ -17,11 +20,15 @@ function App() {
         <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
           <Route index element={<HomePage />} />
           <Route path='results' element={<ResultsPage />} loader={resultsLoader} />
+          <Route path='enrollment' element={<EnrollementPage />} loader={enrollmentPageLoader} />
           <Route path='profile' element={<ProfilePage />} loader={profilePageLoader} />
-          <Route path='login' element={<LoginPage />} />
+          <Route path='exams' element={<ExamsPage />} loader={examsPageLoader} />
           <Route path='Modules' element={<ModulesDegreePage />} loader={ModulesDegreeLoader} />
+          {/* lecturer pages */}
+          <Route path='lecturer/Profile' element={< LecturerProfilePage />} loader={lecturerProfilePageLoader} />
         </Route>
         <Route path='*' element={<NotFound />} />
+        <Route path='login' element={<LoginPage />} />
       </>
     )
   )

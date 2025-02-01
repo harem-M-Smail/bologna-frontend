@@ -2,16 +2,18 @@ import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex } from 'antd';
 import axios from 'axios';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
+    const nav = useNavigate()
     const onFinish = (values: any) => {
         axios.defaults.withCredentials = true;
         axios.post('http://localhost:5083/api/User/login/' + values.username + '/' + values.password, { withCredentials: true })
             .then(res => {
+                console.log(res)
                 if (res.status === 200) {
-                    console.log(res.data)
-                    return redirect('/')
+                    console.log('test got')
+                    nav("/")
                 } else if (res.status === 401) {
                     console.log('else if')
                 }
@@ -47,7 +49,6 @@ const LoginForm: React.FC = () => {
                     <Form.Item name="remember" valuePropName="checked" noStyle>
                         <Checkbox>Remember me</Checkbox>
                     </Form.Item>
-                    <a href="">Forgot password</a>
                 </Flex>
             </Form.Item>
 
@@ -55,7 +56,6 @@ const LoginForm: React.FC = () => {
                 <Button block type="primary" htmlType="submit">
                     Log in
                 </Button>
-                or <a href="">Register now!</a>
             </Form.Item>
         </Form>
     );

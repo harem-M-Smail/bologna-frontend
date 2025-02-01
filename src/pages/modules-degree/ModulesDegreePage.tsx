@@ -82,24 +82,29 @@ const ModulesDegreePage = () => {
 
     return (
         <>
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <Select
-                    defaultValue={subject}
-                    style={{ width: 200 }}
-                    onChange={(value) => setSubject(value)}
-                    options={data.map((subject) => ({
-                        value: subject.name,
-                        label: subject.name,
-                    }))}
-                />
-            </div>
-            <p>{`you have ${selectedSubject.totalAbsentHour} hours of apsent, the limit is ${selectedSubject.absentLimit} hours`}</p>
-            <Table
-                columns={columns}
-                dataSource={transformedData}
-                pagination={false}
-                style={{ border: "1px solid #f0f0f0", borderRadius: "8px" }}
-            />
+            {data.length == 0 ? <p>you are not enrolled in any subject</p> :
+                <>
+                    <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                        <Select
+                            defaultValue={subject}
+                            style={{ width: 200 }}
+                            onChange={(value) => setSubject(value)}
+                            options={data.map((subject) => ({
+                                value: subject.name,
+                                label: subject.name,
+                            }))}
+                        />
+                    </div>
+                    <p>{`you have ${selectedSubject.totalAbsentHour} hours of apsent, the limit is ${selectedSubject.absentLimit} hours`}</p>
+                    <Table
+                        columns={columns}
+                        dataSource={transformedData}
+                        pagination={false}
+                        style={{ border: "1px solid #f0f0f0", borderRadius: "8px" }}
+                    />
+                </>
+            }
+
         </>
     );
 };
@@ -110,7 +115,6 @@ export const ModulesDegreeLoader = async () => {
     axios.defaults.withCredentials = true;
     const response = await axios.get(
         "http://localhost:5083/api/Student/modules-degree"
-
     ).then(res => {
         if (res.status === 200) {
             return res.data

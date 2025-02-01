@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Layout, Menu, theme } from 'antd';
-import { NavLink, Outlet, useNavigate, useNavigation } from 'react-router-dom';
+import { Avatar, Layout, Menu, theme } from 'antd';
+import { NavLink, Outlet, useNavigation } from 'react-router-dom';
+import { UserOutlined } from '@ant-design/icons';
 
 const { Header, Content } = Layout;
 
@@ -11,12 +12,27 @@ const Root: React.FC = () => {
     const navLinks = [{ name: 'Home', path: '/', key: 1 },
     { name: 'Results', path: '/Results', key: 2 },
     { name: 'Modules', path: '/Modules', key: 3 },
-    { name: 'Module Results', path: '/Module-Results', key: 4 },
-    { name: 'Profile', path: '/Profile', key: 5 },
+    { name: 'Exams', path: '/Exams', key: 4 },
+    { name: 'Enrollment', path: '/Enrollment', key: 5 },
+    { name: 'Profile', path: '/Profile', key: 6 },
     ]
+
+    const profileDropdown = () => {
+        return (
+            <DropDown />
+        )
+    }
     const items: any = navLinks.map(navLInk => ({
-        label: <NavLink to={navLInk.path} key={navLInk.key}>{navLInk.name}</NavLink>
+        label:
+            <>
+                <NavLink to={navLInk.path} key={navLInk.key}>{navLInk.name}</NavLink>
+            </>
     }))
+    items.push({
+        label: profileDropdown(),
+        key: 'profile',
+        style: { marginLeft: 'auto' }
+    })
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Header style={{ display: 'flex', alignItems: 'center' }}>
@@ -29,7 +45,7 @@ const Root: React.FC = () => {
                     style={{ flex: 1, minWidth: 0 }}
                 />
             </Header>
-            <Content style={{ padding: '0 48px' }}>
+            <Content className='root-content'>
                 <div
                     style={{
                         background: colorBgContainer,
@@ -49,6 +65,7 @@ const Root: React.FC = () => {
 export default Root;
 
 import { Flex, Spin } from 'antd';
+import DropDown from './DropDown';
 
 const LoadingIndicator: React.FC = () => {
     const navigation = useNavigation();
