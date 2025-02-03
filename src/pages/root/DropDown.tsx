@@ -8,13 +8,24 @@ import axios from 'axios';
 const DropDown: React.FC = () => {
 
     const nav = useNavigate()
-    const handleLogout = () => {
-        axios.post("http://localhost:5083/api/User/logout").then((data) => {
-            console.log(data)
-            nav('/login')
-        }).catch(err => {
-            throw new Error(err.message)
-        })
+    const handleLogout = async () => {
+        console.log('logout')
+        try {
+            const response = await axios.post("http://localhost:5083/api/User/logout");
+            if (response.status === 401) {
+                // nav('/login');
+            } else {
+                nav('/login');
+            }
+        } catch (err) {
+            nav('/login');
+
+            if (axios.isAxiosError(err)) {
+                console.error("Logout failed: ", err.response?.data || err.message);
+            } else {
+                console.error("Logout failed: ", err);
+            }
+        }
     }
     const items: MenuProps['items'] = [
         {

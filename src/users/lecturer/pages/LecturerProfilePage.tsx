@@ -3,32 +3,7 @@ import { redirect, useLoaderData } from "react-router-dom";
 import { Descriptions, List } from 'antd';
 
 const LecturerProfilePage = () => {
-    // const data = useLoaderData()
-    const data = {
-        "fullName": "Ismael Khorshed Abdulrahman",
-        "fullNameKurdish": "تێست",
-        "code": "ISAB307",
-        "email": "ismael.abdulrahman@epu.edu.iq",
-        "phoneNumber": "7501335645",
-        "gender": "Male",
-        "scientificTitle": "Assistant Professor",
-        "degree": "Bachelor",
-        "lecturerAt": [
-            {
-                "academicName": "Erbil Technical Engineering College",
-                "academicNameKurdish": "کۆلێژى تەکنیکى ئەندازیارى هەولێر",
-                "departmentName": "Information System Engineering",
-                "departmentNameKurdish": "ئەندازیاری سیستەمى زانیاری"
-            },
-            {
-                "academicName": "Erbil Technical Engineering College",
-                "academicNameKurdish": "کۆلێژى تەکنیکى ئەندازیارى هەولێر",
-                "departmentName": "Information System Engineering",
-                "departmentNameKurdish": "ئەندازیاری سیستەمى زانیاری"
-            }
-        ]
-    }
-
+    const data = useLoaderData()
     return (
         <div>
 

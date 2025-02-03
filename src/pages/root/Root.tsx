@@ -1,11 +1,22 @@
-import React from 'react';
-import { Avatar, Layout, Menu, theme } from 'antd';
-import { NavLink, Outlet, useNavigation } from 'react-router-dom';
-import { UserOutlined } from '@ant-design/icons';
+import React, { useEffect } from 'react';
+import { Layout, Menu, theme } from 'antd';
+import { NavLink, Outlet, useNavigate, useNavigation } from 'react-router-dom';
 
 const { Header, Content } = Layout;
 
 const Root: React.FC = () => {
+
+    const checkUserSession = () => {
+        const navigate = useNavigate();
+        useEffect(() => {
+            const userData = sessionStorage.getItem('userData');
+            if (!userData) {
+                navigate('/login');
+            }
+        }, [navigate]);
+    };
+    checkUserSession();
+
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();

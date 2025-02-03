@@ -13,6 +13,12 @@ import EnrollementPage, { enrollmentPageLoader } from './pages/Enrollment/Enroll
 import ExamsPage, { examsPageLoader } from './pages/exams/ExamsPage'
 import LecturerProfilePage, { lecturerProfilePageLoader } from './users/lecturer/pages/LecturerProfilePage'
 
+
+// Updated Workflow
+// User logs in → Store user data in sessionStorage.
+// User refreshes → sessionStorage is gone → Call /api/user → Restore user info.
+// User closes the tab → sessionStorage is lost → If cookies exist, call /api/user.
+// User logs out → Clear sessionStorage and ask the backend to remove cookies.
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(

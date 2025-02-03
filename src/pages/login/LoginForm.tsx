@@ -10,12 +10,10 @@ const LoginForm: React.FC = () => {
         axios.defaults.withCredentials = true;
         axios.post('http://localhost:5083/api/User/login/' + values.username + '/' + values.password, { withCredentials: true })
             .then(res => {
-                console.log(res)
                 if (res.status === 200) {
-                    console.log('test got')
+                    sessionStorage.setItem('userData', JSON.stringify(res.data));
                     nav("/")
                 } else if (res.status === 401) {
-                    console.log('else if')
                 }
             }).catch(err => {
                 if (err.status === 401) {
