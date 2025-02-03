@@ -25,11 +25,11 @@ function App() {
       <>
         <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
           <Route index element={<HomePage />} />
-          <Route path='results' element={<ResultsPage />} loader={resultsLoader} />
-          <Route path='enrollment' element={<EnrollementPage />} loader={enrollmentPageLoader} />
-          <Route path='profile' element={<ProfilePage />} loader={profilePageLoader} />
-          <Route path='exams' element={<ExamsPage />} loader={examsPageLoader} />
-          <Route path='Modules' element={<ModulesDegreePage />} loader={ModulesDegreeLoader} />
+          <Route path='/student/results' element={<ResultsPage />} loader={resultsLoader} />
+          <Route path='/student/enrollment' element={<EnrollementPage />} loader={enrollmentPageLoader} />
+          <Route path='/student/profile' element={<ProfilePage />} loader={profilePageLoader} />
+          <Route path='/student/exams' element={<ExamsPage />} loader={examsPageLoader} />
+          <Route path='/student/Modules' element={<ModulesDegreePage />} loader={ModulesDegreeLoader} />
           {/* lecturer pages */}
           <Route path='lecturer/Profile' element={< LecturerProfilePage />} loader={lecturerProfilePageLoader} />
         </Route>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Layout, Menu, theme } from 'antd';
-import { NavLink, Outlet, useNavigate, useNavigation } from 'react-router-dom';
+import { json, NavLink, Outlet, useNavigate, useNavigation } from 'react-router-dom';
 
 const { Header, Content } = Layout;
 
@@ -17,17 +17,35 @@ const Root: React.FC = () => {
     };
     checkUserSession();
 
+    //expect a user that has access for more than one role
+    const userLinks = [
+        {
+            user: 'Student',
+            links: [
+                { name: 'Home', path: '/', key: 1 },
+                { name: 'Results', path: '/student/Results', key: 2 },
+                { name: 'Modules', path: '/student/Modules', key: 3 },
+                { name: 'Exams', path: '/student/Exams', key: 4 },
+                { name: 'Enrollment', path: '/student/Enrollment', key: 5 },
+            ],
+        },
+        {
+            user: 'Lecturer',
+            links: [
+                { name: 'lecturerpage1', path: '/', key: 11 },
+                { name: 'lecturerpage2', path: '/Results', key: 12 },
+                { name: 'lecturerpage3', path: '/Modules', key: 13 },
+            ],
+        },
+    ]
+
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const navLinks = [{ name: 'Home', path: '/', key: 1 },
-    { name: 'Results', path: '/Results', key: 2 },
-    { name: 'Modules', path: '/Modules', key: 3 },
-    { name: 'Exams', path: '/Exams', key: 4 },
-    { name: 'Enrollment', path: '/Enrollment', key: 5 },
-    { name: 'Profile', path: '/Profile', key: 6 },
-    ]
+    const userRoles = JSON.parse(sessionStorage.getItem('userData')).roles;
 
+    let navLinks = userLinks.filter(userLink => userRoles.includes(userLink.user)).map(userLink => userLink.links).flat();
+    console.log(navLinks)
     const profileDropdown = () => {
         return (
             <DropDown />

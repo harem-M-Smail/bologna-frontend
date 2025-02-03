@@ -9,14 +9,11 @@ const DropDown: React.FC = () => {
 
     const nav = useNavigate()
     const handleLogout = async () => {
-        console.log('logout')
         try {
             const response = await axios.post("http://localhost:5083/api/User/logout");
-            if (response.status === 401) {
-                // nav('/login');
-            } else {
-                nav('/login');
-            }
+
+            nav('/login');
+            sessionStorage.removeItem('userData');
         } catch (err) {
             nav('/login');
 
@@ -27,10 +24,12 @@ const DropDown: React.FC = () => {
             }
         }
     }
+    const userData = (JSON.parse(sessionStorage.getItem('userData')));
+    console.log(userData)
     const items: MenuProps['items'] = [
         {
             key: '1',
-            label: 'My Account',
+            label: userData.username,
             disabled: true,
         },
         {
@@ -40,7 +39,7 @@ const DropDown: React.FC = () => {
             key: '2',
             label: 'Profile',
             icon: <UserOutlined />,
-            onClick: () => nav('/lecturer/Profile')
+            onClick: () => nav(`/${userData.roles[0]}/Profile`)
         },
         {
             key: '4',
