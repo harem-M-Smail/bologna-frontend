@@ -28,7 +28,8 @@ const DropDown: React.FC = () => {
     const items: MenuProps['items'] = [
         {
             key: '1',
-            label: userData.username,
+            // label: userData.username,
+            label: "",
             disabled: true,
         },
         {

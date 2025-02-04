@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Layout, Menu, theme } from 'antd';
-import { NavLink, Outlet, redirect, useNavigate, useNavigation } from 'react-router-dom';
-
+import { NavLink, Outlet, redirect, useLoaderData, useNavigation } from 'react-router-dom';
+import { Flex, Spin } from 'antd';
+import DropDown from './DropDown';
+import axios from 'axios';
 const { Header, Content } = Layout;
 
 const Root: React.FC = () => {
-
+    // const data = useLoaderData();
+    // console.log(data)
     //expect a user that has access for more than one role
     const userLinks = [
         {
@@ -33,7 +36,6 @@ const Root: React.FC = () => {
     const userRoles = JSON.parse(sessionStorage.getItem('userData')).roles;
 
     let navLinks = userLinks.filter(userLink => userRoles.includes(userLink.user)).map(userLink => userLink.links).flat();
-    console.log(navLinks)
     const profileDropdown = () => {
         return (
             <DropDown />
@@ -81,8 +83,6 @@ const Root: React.FC = () => {
 
 export default Root;
 
-import { Flex, Spin } from 'antd';
-import DropDown from './DropDown';
 
 const LoadingIndicator: React.FC = () => {
     const navigation = useNavigation();
@@ -99,10 +99,29 @@ const LoadingIndicator: React.FC = () => {
     )
 };
 
+
 export const rootLoader = () => {
     const userData = sessionStorage.getItem('userData');
     if (!userData) {
-        return redirect('/login')
+        axios.defaults.withCredentials = true;
+        return axios.get('http://localhost:5083/api/User/get-session')
+            .then(res => {
+                if (res.status === 200) {
+                    sessionStorage.setItem('userData', JSON.stringify(res.data));
+                    console.log('200')
+                    return res.data;
+                } else {
+                    if (res.status === 401 || res.status === 403) {
+                        return redirect('/login');
+                    }
+                    return res.statusText;
+                }
+            }).catch(err => {
+                if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+                    return redirect('/login');
+                }
+                throw new Error(err);
+            });
     }
     return null
 }

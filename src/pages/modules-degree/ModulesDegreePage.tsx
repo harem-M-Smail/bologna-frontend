@@ -119,7 +119,6 @@ export const ModulesDegreeLoader = async () => {
         if (res.status === 200) {
             return res.data
         } else {
-            console.log('then else')
             if (res.status === 401) {
                 return redirect('/login')
             }
