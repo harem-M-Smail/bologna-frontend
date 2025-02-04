@@ -77,8 +77,10 @@ const ExamsPage: React.FC = () => {
         return [
             { title: 'Module', width: 100, dataIndex: 'name', key: 'module', fixed: 'left' },
             { title: 'Code', dataIndex: 'code', key: '1' },
-            { title: 'Instructor', dataIndex: 'instructor', key: '2' },
-            { title: 'Creadits', dataIndex: 'creadits', key: '3' },
+            { title: 'Semester', dataIndex: 'semester', key: '88' },
+
+            { title: 'Total Degree', dataIndex: 'totalDegree', key: '2' },
+            { title: 'Creadits', dataIndex: 'credits', key: '3' },
             { title: 'trial attempt', dataIndex: 'trialAttempt', key: '4' },
             {
                 title: 'Register', key: 'operation', fixed: 'right', width: 100,
