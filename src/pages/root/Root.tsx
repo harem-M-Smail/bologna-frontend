@@ -1,21 +1,10 @@
 import React, { useEffect } from 'react';
 import { Layout, Menu, theme } from 'antd';
-import { json, NavLink, Outlet, useNavigate, useNavigation } from 'react-router-dom';
+import { NavLink, Outlet, redirect, useNavigate, useNavigation } from 'react-router-dom';
 
 const { Header, Content } = Layout;
 
 const Root: React.FC = () => {
-
-    const checkUserSession = () => {
-        const navigate = useNavigate();
-        useEffect(() => {
-            const userData = sessionStorage.getItem('userData');
-            if (!userData) {
-                navigate('/login');
-            }
-        }, [navigate]);
-    };
-    checkUserSession();
 
     //expect a user that has access for more than one role
     const userLinks = [
@@ -38,7 +27,6 @@ const Root: React.FC = () => {
             ],
         },
     ]
-
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -110,3 +98,11 @@ const LoadingIndicator: React.FC = () => {
         )
     )
 };
+
+export const rootLoader = () => {
+    const userData = sessionStorage.getItem('userData');
+    if (!userData) {
+        return redirect('/login')
+    }
+    return null
+}

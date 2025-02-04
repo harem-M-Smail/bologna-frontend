@@ -11,7 +11,6 @@ const DropDown: React.FC = () => {
     const handleLogout = async () => {
         try {
             const response = await axios.post("http://localhost:5083/api/User/logout");
-
             nav('/login');
             sessionStorage.removeItem('userData');
         } catch (err) {

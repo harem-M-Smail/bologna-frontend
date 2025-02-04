@@ -1,7 +1,7 @@
 
 import './App.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, useNavigation } from 'react-router-dom'
-import Root from './pages/root/Root'
+import Root, { rootLoader } from './pages/root/Root'
 import ResultsPage, { resultsLoader } from './pages/results/ResultsPage'
 import LoginPage from './pages/login/LoginPage'
 import NotFound from './pages/support-pages/NotFound'
@@ -23,7 +23,7 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+        <Route path="/" element={<Root />} loader={rootLoader} errorElement={<ErrorPage />}>
           <Route index element={<HomePage />} />
           <Route path='/student/results' element={<ResultsPage />} loader={resultsLoader} />
           <Route path='/student/enrollment' element={<EnrollementPage />} loader={enrollmentPageLoader} />
@@ -34,7 +34,7 @@ function App() {
           <Route path='lecturer/Profile' element={< LecturerProfilePage />} loader={lecturerProfilePageLoader} />
         </Route>
         <Route path='*' element={<NotFound />} />
-        <Route path='login' element={<LoginPage />} />
+        <Route path='/login' element={<LoginPage />} />
       </>
     )
   )
