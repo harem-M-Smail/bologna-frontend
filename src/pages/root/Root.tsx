@@ -24,8 +24,8 @@ const Root: React.FC = () => {
         {
             user: 'Lecturer',
             links: [
-                { name: 'lecturerpage1', path: '/', key: 11 },
-                { name: 'lecturerpage2', path: '/Results', key: 12 },
+                { name: 'Home', path: '/', key: 11 },
+                { name: 'My Subjects', path: '/lecturer/mysubjects', key: 12 },
                 { name: 'lecturerpage3', path: '/Modules', key: 13 },
             ],
         },

@@ -12,6 +12,7 @@ import HomePage from './pages/home/HomePage'
 import EnrollementPage, { enrollmentPageLoader } from './pages/Enrollment/EnrollmentPage'
 import ExamsPage, { examsPageLoader } from './pages/exams/ExamsPage'
 import LecturerProfilePage, { lecturerProfilePageLoader } from './users/lecturer/pages/LecturerProfilePage'
+import MySubjects, { mySubjectsLoader } from './users/lecturer/pages/MySubjects'
 
 
 // Updated Workflow
@@ -32,6 +33,8 @@ function App() {
           <Route path='/student/Modules' element={<ModulesDegreePage />} loader={ModulesDegreeLoader} />
           {/* lecturer pages */}
           <Route path='lecturer/Profile' element={< LecturerProfilePage />} loader={lecturerProfilePageLoader} />
+          <Route path='lecturer/mySubjects' element={< MySubjects />} loader={mySubjectsLoader} />
+
         </Route>
         <Route path='*' element={<NotFound />} />
         <Route path='/login' element={<LoginPage />} />
