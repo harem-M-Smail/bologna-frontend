@@ -13,6 +13,7 @@ import EnrollementPage, { enrollmentPageLoader } from './pages/Enrollment/Enroll
 import ExamsPage, { examsPageLoader } from './pages/exams/ExamsPage'
 import LecturerProfilePage, { lecturerProfilePageLoader } from './users/lecturer/pages/LecturerProfilePage'
 import MySubjects, { mySubjectsLoader } from './users/lecturer/pages/MySubjects'
+import Test from './users/lecturer/pages/test'
 
 
 // Updated Workflow
@@ -34,6 +35,7 @@ function App() {
           {/* lecturer pages */}
           <Route path='lecturer/Profile' element={< LecturerProfilePage />} loader={lecturerProfilePageLoader} />
           <Route path='lecturer/mySubjects' element={< MySubjects />} loader={mySubjectsLoader} />
+          <Route path='lecturer/test' element={< Test />} />
 
         </Route>
         <Route path='*' element={<NotFound />} />

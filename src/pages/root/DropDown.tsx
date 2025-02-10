@@ -24,7 +24,6 @@ const DropDown: React.FC = () => {
         }
     }
     const userData = (JSON.parse(sessionStorage.getItem('userData')));
-    console.log(userData)
     const items: MenuProps['items'] = [
         {
             key: '1',
