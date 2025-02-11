@@ -26,7 +26,6 @@ const useStyle = createStyles(({ css, token }) => {
 const MySubjects: React.FC = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const [data, setData] = useState(useLoaderData())
-    console.log(data)
     const onUpdateAssistantAccess = (moduleId, accessValue) => {
         axios.patch(`http://localhost:5083/api/Lecturer/update-assistant-access/${moduleId}/${accessValue}`)
             .then(response => {
@@ -39,24 +38,21 @@ const MySubjects: React.FC = () => {
                 }
             })
             .catch(error => {
-                message.error('Error updating assistant access:', error);
+                message.error(error.response.data.message);
             });
     }
     const onUpdateComplainAccess = (moduleId, complainValue) => {
-        console.log(moduleId, complainValue)
-
         axios.patch(`http://localhost:5083/api/Lecturer/set-complain/${moduleId}/${complainValue}`)
             .then(response => {
                 if (response.status === 200 || response.status === 204) {
                     setData(data.map(module => module.moduleId === moduleId ? { ...module, complainAccess: complainValue } : module))
                     message.success(`Access ${complainValue ? 'granted' : 'revoked'} successfully`);
-
                 } else {
                     message.error('Failed to update complain');
                 }
             })
             .catch(error => {
-                message.error('Error updating complain:', error);
+                message.error(error.response.data.message);
             });
     }
     const columns: TableColumnsType<Module> = () => {
@@ -70,9 +66,9 @@ const MySubjects: React.FC = () => {
             { title: 'Type', dataIndex: 'type', key: '5' },
             { title: 'Lecturer Type', dataIndex: 'lecturerType', key: '6' },
             { title: 'open complain', dataIndex: 'complainAccess', key: '20', render: (record) => <span>{record ? "true" : "false"}</span> },
-            { title: 'Open complain', dataIndex: 'stage', key: '9', render: (text, record) => <Switch checked={record.complainAccess} onChange={() => onUpdateComplainAccess(record.moduleId, !record.complainAccess)} /> },
-            { title: 'Assist.lec Access', dataIndex: 'assistantAccess', key: '20', render: (record) => <span>{record ? "true" : "false"}</span> },
-            { title: 'Assist.lec Access', dataIndex: 'assistantAccess', key: '10', render: (text, record) => <Switch checked={record.assistantAccess} onChange={() => onUpdateAssistantAccess(record.moduleId, !record.assistantAccess)} /> },
+            { title: 'Open complain', dataIndex: 'complainAccess', key: '9', render: (text, record) => <Switch checked={record.complainAccess} onChange={() => onUpdateComplainAccess(record.moduleId, !record.complainAccess)} /> },
+            { title: 'Assist.lec Access', dataIndex: 'assistantAccess', key: '21', render: (record) => <span>{record ? "true" : "false"}</span> },
+            { title: 'Assist.lec Access', dataIndex: 'assistantAccess', key: '10', render: (text, record) => record.assistantAccess != null ? <Switch checked={record.assistantAccess} onChange={() => onUpdateAssistantAccess(record.moduleId, !record.assistantAccess)} /> : <span>no assistant</span> },
             {
                 title: 'Workload',
                 dataIndex: 'workload',
