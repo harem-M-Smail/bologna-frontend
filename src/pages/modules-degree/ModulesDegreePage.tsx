@@ -1,8 +1,9 @@
-import { Select, Table } from "antd";
+import { Progress, Select, Table } from "antd";
 import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-
+import { Flex } from 'antd';
+import type { ProgressProps } from 'antd';
 // Define Columns
 const columns = [
     {
@@ -38,8 +39,6 @@ const ModulesDegreePage = () => {
 
     // Transform Data with Totals
     const transformedData = [];
-    let grandTotal = 0; // To calculate the overall total
-
     const selectedSubject = data.find((item) => item.name === subject);
     if (selectedSubject) {
         selectedSubject.activities.forEach((activity) => {
@@ -66,19 +65,20 @@ const ModulesDegreePage = () => {
                     isTotal: true, // Flag to identify total rows
                 });
             }
-
-            // Add to grand totals
-            grandTotal += totalDegree;
         });
 
         // Add Final Row for Overall Total
         transformedData.push({
             key: "final-total",
             taskName: "Total",
-            degree: `${grandTotal}`,
+            degree: selectedSubject.totalDegree,
             isTotal: true,
         });
     }
+    const twoColors: ProgressProps['strokeColor'] = {
+        '0%': 'green',
+        '100%': 'red',
+    };
 
     return (
         <>
@@ -95,7 +95,14 @@ const ModulesDegreePage = () => {
                             }))}
                         />
                     </div>
-                    <p>{`you have ${selectedSubject.totalAbsentHour} hours of apsent, the limit is ${selectedSubject.absentLimit} hours`}</p>
+                    <Flex direction="column" align="center" style={{ marginBottom: "20px" }}>
+                        <Progress
+                            percent={(selectedSubject.totalAbsentHour / selectedSubject.absentLimit) * 100}
+                            strokeColor={selectedSubject.totalAbsentHour < selectedSubject.absentLimit / 2 ? 'green' : 'red'}
+                            format={() => `${selectedSubject.totalAbsentHour} / ${selectedSubject.absentLimit} apsent hours`}
+                            size={[300, 15]}
+                        />
+                    </Flex>
                     <Table
                         columns={columns}
                         dataSource={transformedData}
@@ -104,7 +111,6 @@ const ModulesDegreePage = () => {
                     />
                 </>
             }
-
         </>
     );
 };
@@ -133,3 +139,6 @@ export const ModulesDegreeLoader = async () => {
     })
     return response
 }
+
+
+

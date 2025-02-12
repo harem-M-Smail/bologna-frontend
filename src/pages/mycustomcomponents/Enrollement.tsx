@@ -43,7 +43,7 @@ const EnrollmentPage: React.FC = (submitionEndpoint, deleteEndpoint, componentTi
             ]);
 
         }).catch(err => {
-            message.error('something went wrong')
+            message.error(err.response.data.message)
         })
     }
     const handleWithdrawModule = async (moduleId) => {
@@ -58,7 +58,7 @@ const EnrollmentPage: React.FC = (submitionEndpoint, deleteEndpoint, componentTi
                 inrolledModules.find((module) => module.moduleId === moduleId),
             ]);
         }).catch(err => {
-            message.error('something went wrong')
+            message.error(err.response.data.message)
         })
     }
     const columns: TableColumnsType<Module> = (actionName, action, color) => {
@@ -81,7 +81,7 @@ const EnrollmentPage: React.FC = (submitionEndpoint, deleteEndpoint, componentTi
     return (
         <>
             {contextHolder}
-            <h2>enrolled {componentTitle}: </h2>
+            <h2>enrolleffd {componentTitle}: </h2>
             <Table<Module>
                 className={styles.customTable}
                 pagination={false}

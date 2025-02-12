@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, ConfigProvider } from 'antd';
+import { Table, ConfigProvider, Flex } from 'antd';
 import type { TableProps } from 'antd';
 
 
@@ -33,7 +33,7 @@ const ResultTable: React.FC = ({ result }) => {
                     dataSource={modulesFinalDegrees}
                     pagination={false}
                     title={() => `semester: ${result.semester}`}
-                    footer={() => `Result: ${result.totalCredits != null ? 'Passed' : 'Failed'}`} />
+                    footer={() => <Flex justify='space-between'><span>{`Result: ${result.totalCredits != null ? `Passed` : 'Failed'}`}</span><span>{result.averageDegree && `GPA: ${result.averageDegree / 4}`}</span></Flex>} />
             </ConfigProvider>
 
         </>
