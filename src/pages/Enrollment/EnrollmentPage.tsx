@@ -1,11 +1,13 @@
 import axios from "axios";
 import { redirect, useLoaderData } from "react-router-dom";
-import { message } from 'antd';
+import { Flex, message, Row, Statistic } from 'antd';
+import { FieldTimeOutlined } from '@ant-design/icons';
 
 import { Button, Table } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { createStyles } from 'antd-style';
 import { useState } from "react";
+const { Column } = Table;
 
 const useStyle = createStyles(({ css, token }) => {
     const { antCls } = token;
@@ -92,14 +94,23 @@ const EnrollmentPage: React.FC = () => {
     return (
         <>
             {contextHolder}
+            <Flex justify="right">
+                <Row gutter={16}>
+                    <Statistic title="Modules registeraton deadline" value={`${notInrolled.from} to ${notInrolled.to}`} prefix={<FieldTimeOutlined />} />
+                </Row>
+            </Flex>
             <h2>enrolled subjects: </h2>
             <Table<Module>
+
                 className={styles.customTable}
                 pagination={false}
                 columns={columns('withdraw', handleWithdrawModule, '#D91656')}
                 dataSource={dataSource(inrolledModules)}
                 scroll={{ x: 'max-content' }}
-            />
+            >
+                <Column title="Age" dataIndex="age" key="age" />
+
+            </Table>
             <h2>not enrolled subjects: </h2>
             <Table<Module>
                 className={styles.customTable}

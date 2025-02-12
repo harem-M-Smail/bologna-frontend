@@ -1,11 +1,13 @@
 import axios from "axios";
 import { redirect, useLoaderData } from "react-router-dom";
-import { message } from 'antd';
+import { Flex, message } from 'antd';
 
 import { Button, Table } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { createStyles } from 'antd-style';
 import { useState } from "react";
+import { FieldTimeOutlined } from '@ant-design/icons';
+import { Row, Statistic } from 'antd';
 
 const useStyle = createStyles(({ css, token }) => {
     const { antCls } = token;
@@ -38,7 +40,6 @@ interface Module {
 
 const ExamsPage: React.FC = () => {
     const { inrolled, notInrolled } = useLoaderData()
-    console.log(notInrolled)
     const [inrolledModules, setInrolled] = useState(inrolled)
     const [notInrolledModules, setNOtInrolled] = useState(notInrolled.modulesToEnroll)
     const [messageApi, contextHolder] = message.useMessage();
@@ -95,6 +96,12 @@ const ExamsPage: React.FC = () => {
     return (
         <>
             {contextHolder}
+            <Flex justify="right">
+                <Row gutter={16}>
+                    <Statistic title="exam registeraton deadline" value={`${notInrolled.from} to ${notInrolled.to}`} prefix={<FieldTimeOutlined />} />
+                </Row>
+            </Flex>
+
             <h2>enrolled subjects: </h2>
             <Table<Module>
                 className={styles.customTable}
