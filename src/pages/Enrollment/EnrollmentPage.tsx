@@ -7,6 +7,7 @@ import { Button, Table } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { createStyles } from 'antd-style';
 import { useState } from "react";
+import { render } from "react-dom";
 const { Column } = Table;
 
 const useStyle = createStyles(({ css, token }) => {
@@ -78,9 +79,12 @@ const EnrollmentPage: React.FC = () => {
         return [
             { title: 'Module', width: 100, dataIndex: 'name', key: 'module', fixed: 'left' },
             { title: 'Code', dataIndex: 'code', key: '1' },
-            { title: 'Instructor', dataIndex: 'fullName', key: '2' },
             { title: 'Credits', dataIndex: 'credits', key: '3' },
+            { title: 'Semester', dataIndex: 'semester', key: '5' },
             { title: 'trial attempt', dataIndex: 'trialAttempt', key: '4' },
+            { title: 'Type', dataIndex: 'type', key: '4' },
+            { title: 'Category', dataIndex: 'category', key: '6', render: (value) => value == "Both" ? "Theory + Practic" : value },
+            { title: 'Instructor', dataIndex: 'fullName', key: '2' },
             {
                 title: 'Register', key: 'operation', fixed: 'right', width: 100,
                 render: (value: any) => <Button onClick={() => action(value.key)}>{actionName}</Button>

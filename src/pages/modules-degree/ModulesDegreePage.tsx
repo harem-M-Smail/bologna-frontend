@@ -99,7 +99,7 @@ const ModulesDegreePage = () => {
                         <Progress
                             percent={(selectedSubject.totalAbsentHour / selectedSubject.absentLimit) * 100}
                             strokeColor={selectedSubject.totalAbsentHour < selectedSubject.absentLimit / 2 ? 'green' : 'red'}
-                            format={() => `${selectedSubject.totalAbsentHour} / ${selectedSubject.absentLimit} apsent hours`}
+                            format={() => `${selectedSubject.totalAbsentHour} / ${selectedSubject.absentLimit} absent hours`}
                             size={[300, 15]}
                         />
                     </Flex>

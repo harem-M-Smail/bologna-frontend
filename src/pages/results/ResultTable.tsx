@@ -33,7 +33,7 @@ const ResultTable: React.FC = ({ result }) => {
                     dataSource={modulesFinalDegrees}
                     pagination={false}
                     title={() => `semester: ${result.semester}`}
-                    footer={() => <Flex justify='space-between'><span>{`Result: ${result.totalCredits != null ? `Passed` : 'Failed'}`}</span><span>{result.averageDegree && `GPA: ${result.averageDegree / 4}`}</span></Flex>} />
+                    footer={() => <Flex justify='space-between'><span>{`Result: ${result.totalCredits != null ? `Passed` : 'Failed'}`}</span><span>{result.averageDegree && `Credit: ${result.totalCredits}/30`}</span></Flex>} />
             </ConfigProvider>
 
         </>

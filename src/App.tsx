@@ -27,14 +27,14 @@ function App() {
       <>
         <Route path="/" element={<Root />} loader={rootLoader} errorElement={<ErrorPage />}>
           <Route index element={<HomePage />} />
-          <Route path='/student/results' element={<ResultsPage />} loader={resultsLoader} />
-          <Route path='/student/enrollment' element={<EnrollementPage />} loader={enrollmentPageLoader} />
+          <Route path='/student/semesters_degree' element={<ResultsPage />} loader={resultsLoader} />
+          <Route path='/student/Modules' element={<EnrollementPage />} loader={enrollmentPageLoader} />
           <Route path='/student/profile' element={<ProfilePage />} loader={profilePageLoader} />
-          <Route path='/student/exams' element={<ExamsPage />} loader={examsPageLoader} />
-          <Route path='/student/Modules' element={<ModulesDegreePage />} loader={ModulesDegreeLoader} />
+          <Route path='/student/Examinations' element={<ExamsPage />} loader={examsPageLoader} />
+          <Route path='/student/Degrees' element={<ModulesDegreePage />} loader={ModulesDegreeLoader} />
           {/* lecturer pages */}
           <Route path='lecturer/Profile' element={< LecturerProfilePage />} loader={lecturerProfilePageLoader} />
-          <Route path='lecturer/mySubjects' element={< MySubjects />} loader={mySubjectsLoader} />
+          <Route path='lecturer/modules' element={< MySubjects />} loader={mySubjectsLoader} />
           <Route path='lecturer/test' element={< Test />} />
 
         </Route>

@@ -15,18 +15,17 @@ const Root: React.FC = () => {
             user: 'Student',
             links: [
                 { name: 'Home', path: '/', key: 1 },
-                { name: 'Results', path: '/student/Results', key: 2 },
-                { name: 'Modules', path: '/student/Modules', key: 3 },
-                { name: 'Exams', path: '/student/Exams', key: 4 },
-                { name: 'Enrollment', path: '/student/Enrollment', key: 5 },
+                { name: 'Semesters Degree', path: '/student/semesters_degree', key: 2 },
+                { name: 'Degrees', path: '/student/Degrees', key: 3 },
+                { name: 'Examinations', path: '/student/Examinations', key: 4 },
+                { name: 'Modules', path: '/student/Modules', key: 5 },
             ],
         },
         {
             user: 'Lecturer',
             links: [
                 { name: 'Home', path: '/', key: 11 },
-                { name: 'My Subjects', path: '/lecturer/mysubjects', key: 12 },
-                { name: 'lecturerpage3', path: '/Modules', key: 13 },
+                { name: 'Modules', path: '/lecturer/Modules', key: 12 },
             ],
         },
     ]

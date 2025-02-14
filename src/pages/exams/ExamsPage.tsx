@@ -78,11 +78,16 @@ const ExamsPage: React.FC = () => {
         return [
             { title: 'Module', width: 100, dataIndex: 'name', key: 'module', fixed: 'left' },
             { title: 'Code', dataIndex: 'code', key: '1' },
+
+            { title: 'Enroll Type', dataIndex: 'enrollType', key: '88' },
+
             { title: 'Semester', dataIndex: 'semester', key: '88' },
 
             { title: 'Total Degree', dataIndex: 'totalDegree', key: '2' },
             { title: 'Creadits', dataIndex: 'credits', key: '3' },
-            { title: 'trial attempt', dataIndex: 'trialAttempt', key: '4' },
+
+            { title: 'trial attempt', dataIndex: 'trialAttempt', key: '5' },
+            { title: 'Enrollment Date', dataIndex: 'enrollmentDate', key: '6' },
             {
                 title: 'Register', key: 'operation', fixed: 'right', width: 100,
                 render: (value: any) => <Button onClick={() => action(value.key)}>{actionName}</Button>

@@ -66,8 +66,13 @@ const EnrollmentPage: React.FC = (submitionEndpoint, deleteEndpoint, componentTi
             { title: 'Module', width: 100, dataIndex: 'name', key: 'module', fixed: 'left' },
             { title: 'Code', dataIndex: 'code', key: '1' },
             { title: 'Instructor', dataIndex: 'instructor', key: '2' },
+            { title: 'Smester', dataIndex: 'smester', key: '6' },
+
             { title: 'Creadits', dataIndex: 'creadits', key: '3' },
+
             { title: 'trial attempt', dataIndex: 'trialAttempt', key: '4' },
+            { title: 'degree', dataIndex: 'totalDegree', key: '5' },
+
             {
                 title: 'Register', key: 'operation', fixed: 'right', width: 100,
                 render: (value: any) => <Button onClick={() => action(value.key)}>{actionName}</Button>

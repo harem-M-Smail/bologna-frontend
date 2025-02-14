@@ -57,12 +57,12 @@ const MySubjects: React.FC = () => {
             });
     }
     const workloadTablecolumns: TableColumnsType<Module> = [
-        { title: 'Index', width: 15, dataIndex: 'index', key: '1' },
+        { title: '#', width: 15, dataIndex: 'index', key: '1' },
         { title: 'Task name', width: 100, dataIndex: 'taskName', key: '2', fixed: 'left' },
         { title: 'Weight', dataIndex: 'weight', key: '3' },
         { title: 'Task count', dataIndex: 'taskCount', key: '4' }]
     const columns: TableColumnsType<Module> = [
-        { title: 'Index', width: 15, dataIndex: 'index', key: '1' },
+        { title: '#', width: 15, dataIndex: 'index', key: '1' },
         { title: 'Module', width: 100, dataIndex: 'name', key: 'module', fixed: 'left' },
         { title: 'Code', dataIndex: 'code', key: '2' },
         { title: 'Academic Name', dataIndex: 'academicName', key: '7' },
@@ -81,7 +81,7 @@ const MySubjects: React.FC = () => {
     ];
 
     const dataSource = (data) => {
-        return data.map((module: Module) => ({ ...module, key: module.moduleId, index: data.indexOf(module) + 1 }))
+        return data.map((module: Module) => ({ ...module, key: module.moduleId || module.taskName, index: data.indexOf(module) + 1 }))
     }
     const { styles } = useStyle();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -128,13 +128,13 @@ const MySubjects: React.FC = () => {
 
     return (
         <>
-            <Modal title="Basic Modal" open={isModalOpen} footer={null} onCancel={handleCancel} >
+            <Modal title="Workload" open={isModalOpen} footer={null} onCancel={handleCancel} >
                 {workload.length > 0 &&
                     <Table<Module>
                         className={styles.customTable}
                         pagination={false}
                         columns={workloadTablecolumns}
-                        dataSource={workload}
+                        dataSource={dataSource(workload)}
                         scroll={{ x: 'max-content' }}
                     />
                 }
