@@ -1,5 +1,5 @@
 import { Progress, Select, Table } from "antd";
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { Flex } from 'antd';

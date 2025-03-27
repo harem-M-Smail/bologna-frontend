@@ -13,7 +13,9 @@ import EnrollementPage, { enrollmentPageLoader } from './pages/Enrollment/Enroll
 import ExamsPage, { examsPageLoader } from './pages/exams/ExamsPage'
 import LecturerProfilePage, { lecturerProfilePageLoader } from './users/lecturer/pages/LecturerProfilePage'
 import MySubjects, { mySubjectsLoader } from './users/lecturer/pages/MySubjects'
-import Test from './users/lecturer/pages/test'
+import { studentGradesLoader } from './users/lecturer/pages/StudentDegrees'
+import UpgradeDegrees from './users/lecturer/pages/UpgradeDegrees'
+import StudentDegrees from './users/lecturer/pages/StudentDegrees'
 
 
 // Updated Workflow
@@ -35,8 +37,8 @@ function App() {
           {/* lecturer pages */}
           <Route path='lecturer/Profile' element={< LecturerProfilePage />} loader={lecturerProfilePageLoader} />
           <Route path='lecturer/modules' element={< MySubjects />} loader={mySubjectsLoader} />
-          <Route path='lecturer/test' element={< Test />} />
-
+          <Route path='lecturer/student-degrees' element={< StudentDegrees />} loader={studentGradesLoader} />
+          <Route path='lecturer/student-degrees/:taskId/:taskNumber' element={< StudentDegrees />} loader={studentGradesLoader} />
         </Route>
         <Route path='*' element={<NotFound />} />
         <Route path='/login' element={<LoginPage />} />

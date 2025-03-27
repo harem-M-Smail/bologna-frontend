@@ -125,7 +125,6 @@ const MySubjects: React.FC = () => {
         nav(window.location.pathname);
         setIsModalOpen(false);
     };
-
     return (
         <>
             <Modal title="Workload" open={isModalOpen} footer={null} onCancel={handleCancel} >

@@ -26,6 +26,7 @@ const Root: React.FC = () => {
             links: [
                 { name: 'Home', path: '/', key: 11 },
                 { name: 'Modules', path: '/lecturer/Modules', key: 12 },
+                { name: 'Degrees', path: '/lecturer/student-degrees', key: 13 },
             ],
         },
     ]
