@@ -16,6 +16,7 @@ import MySubjects, { mySubjectsLoader } from './users/lecturer/pages/MySubjects'
 import { studentGradesLoader } from './users/lecturer/pages/StudentDegrees'
 import UpgradeDegrees from './users/lecturer/pages/UpgradeDegrees'
 import StudentDegrees from './users/lecturer/pages/StudentDegrees'
+import DepartmentInfo, { departmentInfoPageLoader } from './users/headOfDepartment/DepartmentInfo'
 
 
 // Updated Workflow
@@ -39,6 +40,9 @@ function App() {
           <Route path='lecturer/modules' element={< MySubjects />} loader={mySubjectsLoader} />
           <Route path='lecturer/student-degrees' element={< StudentDegrees />} loader={studentGradesLoader} />
           <Route path='lecturer/student-degrees/:taskId/:taskNumber' element={< UpgradeDegrees />} />
+          {/* head of department pages */}
+          <Route path='lecturer/head_of_department/department_info' element={< DepartmentInfo />} loader={departmentInfoPageLoader} />
+
         </Route>
         <Route path='*' element={<NotFound />} />
         <Route path='/login' element={<LoginPage />} />

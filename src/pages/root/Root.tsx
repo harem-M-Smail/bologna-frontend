@@ -29,13 +29,25 @@ const Root: React.FC = () => {
                 { name: 'Degrees', path: '/lecturer/student-degrees', key: 13 },
             ],
         },
+        {
+            user: 'Department Head',
+            links: [
+                { name: 'Department Info', path: 'lecturer/head_of_department/department_info', key: 20 },
+
+            ],
+        }
     ]
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     const userRoles = JSON.parse(sessionStorage.getItem('userData')).roles;
-
-    let navLinks = userLinks.filter(userLink => userRoles.includes(userLink.user)).map(userLink => userLink.links).flat();
+    const navLinks = userRoles.reduce((acc, role) => {
+        const userLink = userLinks.find(userLink => userLink.user.toLowerCase() === role.toLowerCase());
+        if (userLink) {
+            acc.push(...userLink.links);
+        }
+        return acc;
+    }, []);
     const profileDropdown = () => {
         return (
             <DropDown />
