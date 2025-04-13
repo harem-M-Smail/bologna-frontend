@@ -38,7 +38,7 @@ function App() {
           <Route path='lecturer/Profile' element={< LecturerProfilePage />} loader={lecturerProfilePageLoader} />
           <Route path='lecturer/modules' element={< MySubjects />} loader={mySubjectsLoader} />
           <Route path='lecturer/student-degrees' element={< StudentDegrees />} loader={studentGradesLoader} />
-          <Route path='lecturer/student-degrees/:taskId/:taskNumber' element={< StudentDegrees />} loader={studentGradesLoader} />
+          <Route path='lecturer/student-degrees/:taskId/:taskNumber' element={< UpgradeDegrees />} />
         </Route>
         <Route path='*' element={<NotFound />} />
         <Route path='/login' element={<LoginPage />} />

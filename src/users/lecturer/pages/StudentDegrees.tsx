@@ -1,32 +1,32 @@
-import { Modal, Select, Table } from "antd";
+import { Select, Table } from "antd";
+import { keyframes } from "antd-style";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, redirect, useLoaderData, useNavigate, } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import Input from "antd/es/input/Input";
+import { Link, redirect, useLoaderData } from "react-router-dom";
+
 
 const StudentDegrees = () => {
     const data = useLoaderData();
     const [subject, setSubject] = useState(data[0]?.name || "");
     const [studentsDegrees, setStudentsDegrees] = useState([]);
     const [moduleWeightInfo, setModuleWeightInfo] = useState([]);
-
     const dataSource = studentsDegrees.length > 0 ?
         studentsDegrees.map(student => {
             return {
-                key: "name",
+                key: Math.random(),
                 name: student.fullName,
+                totalDegree: student.totalDegree,
                 ...student.activities.map((task, i) => ({ [i]: task.degree })).reduce((acc, curr) => Object.assign(acc, curr), {})
             }
         })
         : [];
-
+    const moduleId = data.find((module) => module.name === subject)?.id
     const columnItem = (title, dataIndex, key) => ({ title, dataIndex, key });
     const columns = studentsDegrees.length > 0 && moduleWeightInfo.length > 0 ? [
         columnItem("Name", "name", "name"),
         ...studentsDegrees[0].activities.map((task, i) => columnItem(
             // generating title for each task
-            <Link to={`${task.taskId.toString()}/${task.taskNumber.toString()}`}>
+            <Link to={`${task.taskId.toString()}/${task.taskNumber.toString()}?module-id=${moduleId}`}>
                 {
                     moduleWeightInfo.find(t => t.taskId == task.taskId)?.taskName
                     + (moduleWeightInfo.find(t => t.taskId == task.taskId)?.taskCount > 1 ? task.taskNumber.toString() : "")
@@ -37,9 +37,16 @@ const StudentDegrees = () => {
             // other arguments
             i,
             Math.random()
+            // adding link to the task
+
         ))
+        , {
+            title: "Total",
+            dataIndex: "totalDegree",
+            key: "totalDegree",
+        }
     ] : [];
-    const moduleId = data.find((module) => module.name === subject)?.id
+
     useEffect(() => {
         getDatas()
     }, [subject])
@@ -48,51 +55,12 @@ const StudentDegrees = () => {
         try {
             const { data: data1 } = await axios.get(`http://localhost:5083/api/Lecturer/students-degrees/${moduleId}`);
             setStudentsDegrees(data1);
+
             const { data: data2 } = await axios.get(`http://localhost:5083/api/Lecturer/module-weight-info/${moduleId}`);
             setModuleWeightInfo(data2);
         } catch (error) {
             throw new Error(error.message);
         }
-    }
-
-    // logic for the modal component
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const { taskId, taskNumber } = useParams();
-    useEffect(() => {
-        if (taskId && taskNumber) {
-            setIsModalOpen(true);
-        }
-        setStudentsDegree(studentsDegrees.map(student => ({ enrollmentId: student.enrollmentId, instructorDegree: student.activities.filter(a => a.taskId == taskId && a.taskNumber == taskNumber)[0]?.instructorDegree })))
-    }, [taskId, taskNumber]);
-    const nav = useNavigate();
-    const handleCancel = () => {
-        nav('/lecturer/student-degrees');
-        setIsModalOpen(false);
-    }
-
-    const UpgradeDegreesColumns = [
-        {
-            title: "Name",
-            dataIndex: "name",
-            key: "name"
-        },
-        {
-            title: "new degree",
-            dataIndex: "newDegree",
-            key: "newDegree",
-
-            render: (text, record) => <Input value={record.taskNumber} />
-
-        }
-    ];
-    const [instructorWeight, setInstructorWeight] = useState(100)
-    const [studentsDegree, setStudentsDegree] = useState([])
-    console.log(studentsDegree)
-    const submitionData = {
-        taskId: taskId,
-        taskNumber: taskNumber,
-        instructorWeight: instructorWeight,
-        studentsDegree: studentsDegree
     }
     return (
         <>
@@ -115,18 +83,6 @@ const StudentDegrees = () => {
                             columns={columns}
                             pagination={false}
                         />
-                        <Modal
-                            title="Update degrees"
-                            open={isModalOpen}
-                            footer={null}
-                            onCancel={handleCancel}>
-                            <Table
-                                dataSource={dataSource}
-                                columns={UpgradeDegreesColumns}
-                                pagination={false}
-                            />
-
-                        </Modal>
                     </div>
                 </>
             }
