@@ -17,6 +17,7 @@ import { studentGradesLoader } from './users/lecturer/pages/StudentDegrees'
 import UpgradeDegrees from './users/lecturer/pages/UpgradeDegrees'
 import StudentDegrees from './users/lecturer/pages/StudentDegrees'
 import DepartmentInfo, { departmentInfoPageLoader } from './users/headOfDepartment/DepartmentInfo'
+import DeptDetails from './users/headOfDepartment/DeptDetails'
 
 
 // Updated Workflow
@@ -42,6 +43,8 @@ function App() {
           <Route path='lecturer/student-degrees/:taskId/:taskNumber' element={< UpgradeDegrees />} />
           {/* head of department pages */}
           <Route path='lecturer/head_of_department/department_info' element={< DepartmentInfo />} loader={departmentInfoPageLoader} />
+          <Route path='lecturer/head_of_department/department_details' element={< DeptDetails />} />
+
 
         </Route>
         <Route path='*' element={<NotFound />} />

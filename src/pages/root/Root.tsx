@@ -32,7 +32,8 @@ const Root: React.FC = () => {
         {
             user: 'Department Head',
             links: [
-                { name: 'Department Info', path: 'lecturer/head_of_department/department_info', key: 20 },
+                { name: 'Dept Info', path: 'lecturer/head_of_department/department_info', key: 20 },
+                { name: 'Dept Details', path: 'lecturer/head_of_department/department_details', key: 21 }
 
             ],
         }
