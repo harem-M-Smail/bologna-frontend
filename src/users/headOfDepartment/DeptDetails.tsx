@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Select, Card, Collapse, Table, Spin } from "antd";
+import { useEffect, useState } from "react";
+import { Select, Collapse, Table, Spin, Input, Button } from "antd";
 import axios from "axios";
+import { redirect } from "react-router-dom";
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -9,8 +10,12 @@ const DeptDetails = () => {
     axios.defaults.withCredentials = true;
     const [departments, setDepartments] = useState([]);
     const [selectedDept, setSelectedDept] = useState(null);
+    const [isMorning, setIsMorning] = useState(true); // Default to "Morning"
+    const [semester, setSemester] = useState(1); // Default to "1"
+    const [degree, setDegree] = useState("Bachelor"); // Default to "Bachelor"
     const [loading, setLoading] = useState(false);
     const [collapseData, setCollapseData] = useState({});
+    const [activeKey, setActiveKey] = useState([]);
 
     useEffect(() => {
         const fetchDepartments = async () => {
@@ -18,7 +23,11 @@ const DeptDetails = () => {
                 const response = await axios.get(
                     "http://localhost:5083/api/DepartmentHead/departments"
                 );
+                if (response.status == 401) {
+                    redirect('/login')
+                }
                 setDepartments(response.data);
+                setSelectedDept(response.data[0]);
             } catch (error) {
                 console.error("Error fetching departments:", error);
             }
@@ -27,7 +36,15 @@ const DeptDetails = () => {
         fetchDepartments();
     }, []);
 
+    useEffect(() => {
+        console.log('useeffected fired ')
+        if (activeKey.includes("students") && selectedDept) {
+            fetchCollapseData("students", selectedDept.id);
+        }
+    }, [semester, degree, activeKey, selectedDept]);
+
     const handleDepartmentChange = (value) => {
+        handleCloseAll();
         const department = departments.find((dept) => dept.id === value);
         setSelectedDept(department);
     };
@@ -41,13 +58,16 @@ const DeptDetails = () => {
                     url = `http://localhost:5083/api/DepartmentHead/modules/${id}`;
                     break;
                 case "staff":
-                    url = `http://localhost:5083/api/DepartmentHead/staffs/${id}/true`;
+                    url = `http://localhost:5083/api/DepartmentHead/staffs/${id}/${isMorning}`;
                     break;
                 case "instructors":
-                    url = `http://localhost:5083/api/DepartmentHead/instructors/${id}/true`;
+                    url = `http://localhost:5083/api/DepartmentHead/instructors/${id}/${isMorning}`;
                     break;
                 case "examinationStaff":
-                    url = `http://localhost:5083/api/DepartmentHead/examination-staff/${id}/true`;
+                    url = `http://localhost:5083/api/DepartmentHead/examination-staff/${id}/${isMorning}`;
+                    break;
+                case "students":
+                    url = `http://localhost:5083/api/DepartmentHead/students/${id}/${isMorning}/${semester}/${degree}`;
                     break;
                 default:
                     break;
@@ -62,82 +82,195 @@ const DeptDetails = () => {
         }
     };
 
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+            <div style={{ padding: 8 }}>
+                <Input
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => confirm()}
+                    style={{ marginBottom: 8, display: "block" }}
+                />
+                <Button
+                    type="primary"
+                    onClick={() => confirm()}
+                    size="small"
+                    style={{ width: 90, marginRight: 8 }}
+                >
+                    Search
+                </Button>
+                <Button
+                    onClick={() => clearFilters && clearFilters()}
+                    size="small"
+                    style={{ width: 90 }}
+                >
+                    Reset
+                </Button>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <span role="img" aria-label="search">
+                🔍
+            </span>
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex]
+                ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+                : "",
+    });
+
     const renderTable = (type) => {
         const data = collapseData[type] || [];
         const columns = {
             modules: [
-                { title: "Name", dataIndex: "name", key: "name" },
+                { title: "Name", dataIndex: "name", key: "name", fixed: "left", ...getColumnSearchProps("name") },
                 { title: "Code", dataIndex: "code", key: "code" },
                 { title: "Stage", dataIndex: "stage", key: "stage" },
                 { title: "Semester", dataIndex: "semester", key: "semester" },
                 { title: "Degree", dataIndex: "degree", key: "degree" },
             ],
             staff: [
-                { title: "Full Name", dataIndex: "fullName", key: "fullName" },
+                {
+                    title: "Full Name",
+                    dataIndex: "fullName",
+                    key: "fullName",
+                    fixed: "left",
+                    ...getColumnSearchProps("fullName"),
+                },
                 { title: "Email", dataIndex: "email", key: "email" },
                 { title: "Phone", dataIndex: "phoneNumber", key: "phoneNumber" },
                 { title: "Gender", dataIndex: "gender", key: "gender" },
                 { title: "Title", dataIndex: "scientificTitle", key: "scientificTitle" },
             ],
             instructors: [
-                { title: "Full Name", dataIndex: "fullName", key: "fullName" },
+                {
+                    title: "Full Name",
+                    dataIndex: "fullName",
+                    key: "fullName",
+                    fixed: "left",
+                    ...getColumnSearchProps("fullName"),
+                },
                 { title: "Email", dataIndex: "email", key: "email" },
                 { title: "Code", dataIndex: "code", key: "code" },
                 { title: "Degree", dataIndex: "degree", key: "degree" },
                 { title: "Title", dataIndex: "scientificTitle", key: "scientificTitle" },
             ],
             examinationStaff: [
-                { title: "Full Name", dataIndex: "fullName", key: "fullName" },
+                {
+                    title: "Full Name",
+                    dataIndex: "fullName",
+                    key: "fullName",
+                    fixed: "left",
+                    ...getColumnSearchProps("fullName"),
+                },
                 { title: "Email", dataIndex: "email", key: "email" },
                 { title: "Role", dataIndex: "role", key: "role" },
                 { title: "Access", dataIndex: "access", key: "access" },
             ],
+            students: [
+                {
+                    title: "Full Name",
+                    dataIndex: "fullName",
+                    key: "fullName",
+                    fixed: "left",
+                    ...getColumnSearchProps("fullName"),
+                },
+                {
+                    title: "Full Name (Kurdish)",
+                    dataIndex: "fullNameKurdish",
+                    key: "fullNameKurdish",
+                    ...getColumnSearchProps("fullNameKurdish"),
+                },
+                { title: "Email", dataIndex: "email", key: "email" },
+                { title: "Code", dataIndex: "code", key: "code" },
+                { title: "Birthday", dataIndex: "birthday", key: "birthday" },
+                { title: "Gender", dataIndex: "gender", key: "gender" },
+                { title: "Current Semester", dataIndex: "currentSemester", key: "currentSemester" },
+                { title: "Theory Group", dataIndex: "theoryGroup", key: "theoryGroup" },
+                { title: "Practical Group", dataIndex: "practicalGroup", key: "practicalGroup" },
+                { title: "Year", dataIndex: "year", key: "year" },
+                { title: "Degree", dataIndex: "degree", key: "degree" },
+                {
+                    title: "Is Morning",
+                    dataIndex: "isMorning",
+                    key: "isMorning",
+                    render: (text) => (text ? "Yes" : "No"),
+                },
+                {
+                    title: "Is Parallel",
+                    dataIndex: "isParallel",
+                    key: "isParallel",
+                    render: (text) => (text ? "Yes" : "No"),
+                },
+            ],
         };
 
-        return <Table dataSource={data} columns={columns[type]} rowKey="id" pagination={false} />;
+        return (
+            <Table
+                dataSource={data}
+                columns={columns[type]}
+                rowKey="id"
+                pagination={false}
+                scroll={{ x: 1200 }} // Enable horizontal scrolling
+            />
+        );
+    };
+
+    const handleCollapseChange = (key) => {
+        setActiveKey(key);
+    };
+
+    const handleCloseAll = () => {
+        setActiveKey([]);
     };
 
     return (
         <div>
-            <h1>Department Details</h1>
-            <Select
-                style={{ width: 300 }}
-                placeholder="Select a department"
-                onChange={handleDepartmentChange}
-            >
-                {departments.map((dept) => (
-                    <Option key={dept.id} value={dept.id}>
-                        {dept.name}
-                    </Option>
-                ))}
-            </Select>
-
-            {/* {selectedDept && (
-                <Card title={selectedDept.name} style={{ marginTop: 20 }}>
-                    <p>Kurdish Name: {selectedDept.kurdishName}</p>
-                    <p>Is Morning: {selectedDept.isMorning ? "Yes" : "No"}</p>
-                    <p>Degrees:</p>
-                    <ul>
-                        {selectedDept.degrees.map((degree, index) => (
-                            <li key={index}>
-                                {degree.name} ({degree.kurdishName}) - {degree.semesterDuration} semesters
-                            </li>
+            {selectedDept && (
+                <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+                    <Select
+                        className="dept-details-select"
+                        value={selectedDept.id}
+                        style={{ width: 300 }}
+                        placeholder="Select a department"
+                        onChange={handleDepartmentChange}
+                    >
+                        {departments.map((dept) => (
+                            <Option key={dept.id} value={dept.id}>
+                                {dept.name}
+                            </Option>
                         ))}
-                    </ul>
-                </Card>
-            )} */}
+                    </Select>
+                    <Select
+                        className="dept-details-select"
+                        style={{ width: 200 }}
+                        defaultValue="true"
+                        onChange={(value) => {
+                            handleCloseAll();
+                            setIsMorning(value === "true");
+                        }}
+                    >
+                        <Option value="true">Morning</Option>
+                        <Option value="false">Evening</Option>
+                    </Select>
+                </div>
+            )}
 
             {selectedDept && (
                 <Collapse
                     accordion
                     style={{ marginTop: 20 }}
+                    activeKey={activeKey}
                     onChange={(key) => {
+                        handleCollapseChange(key);
+
                         if (key.length > 0) {
                             fetchCollapseData(key[0], selectedDept.id);
                         }
                     }}
                 >
-                    <Panel header="Modules" key="modules">
+                    <Panel className="modules-panel" header="Modules" key="modules">
                         {loading ? <Spin /> : renderTable("modules")}
                     </Panel>
                     <Panel header="Staff" key="staff">
@@ -148,6 +281,33 @@ const DeptDetails = () => {
                     </Panel>
                     <Panel header="Examination Staff" key="examinationStaff">
                         {loading ? <Spin /> : renderTable("examinationStaff")}
+                    </Panel>
+                    <Panel header="Students" key="students">
+                        <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+                            <Select
+                                className="dept-details-select"
+                                style={{ width: 200 }}
+                                defaultValue={1}
+                                onChange={(value) => setSemester(value)}
+                            >
+                                {[...Array(8).keys()].map((i) => (
+                                    <Option key={i + 1} value={i + 1}>
+                                        Semester {i + 1}
+                                    </Option>
+                                ))}
+                            </Select>
+                            <Select
+                                className="dept-details-select"
+                                style={{ width: 200 }}
+                                defaultValue="Bachelor"
+                                onChange={(value) => setDegree(value)}
+                            >
+                                <Option value="Bachelor">Bachelor</Option>
+                                <Option value="Master">Master</Option>
+                                <Option value="PhD">PhD</Option>
+                            </Select>
+                        </div>
+                        {loading ? <Spin /> : renderTable("students")}
                     </Panel>
                 </Collapse>
             )}

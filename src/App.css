@@ -49,3 +49,9 @@
     padding: 0;
   }
 }
+
+.dept-details-select .ant-select-selector {
+  background-color: #000B58 !important;
+  border: 1px solid grey !important;
+  color: white !important;
+}
