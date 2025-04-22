@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Select, Collapse, Table, Spin, Input, Button } from "antd";
 import axios from "axios";
-import { redirect } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 const { Panel } = Collapse;
 
 const DeptDetails = () => {
+    const nav = useNavigate()
     axios.defaults.withCredentials = true;
     const [departments, setDepartments] = useState([]);
     const [selectedDept, setSelectedDept] = useState(null);
@@ -213,6 +214,20 @@ const DeptDetails = () => {
                 rowKey="id"
                 pagination={false}
                 scroll={{ x: 1200 }} // Enable horizontal scrolling
+                onRow={(record) => ({
+                    onClick: () => {
+                        if (type === "students") {
+                            nav(`/lecturer/head_of_department/student_details/?student_id=${record.id}`);
+                        } else if (type === "instructors") {
+                            const queryParams = new URLSearchParams({
+                                departmentId: selectedDept.id,
+                                isMorning: isMorning.toString(),
+                                lecturerId: record.id,
+                            }).toString();
+                            nav(`/lecturer/head_of_department/instructor_details?${queryParams}`);
+                        }
+                    },
+                })}
             />
         );
     };

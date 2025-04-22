@@ -18,6 +18,8 @@ import UpgradeDegrees from './users/lecturer/pages/UpgradeDegrees'
 import StudentDegrees from './users/lecturer/pages/StudentDegrees'
 import DepartmentInfo, { departmentInfoPageLoader } from './users/headOfDepartment/DepartmentInfo'
 import DeptDetails from './users/headOfDepartment/DeptDetails'
+import StudentDetails from './users/headOfDepartment/studentDetails'
+import InstructorDetails from './users/headOfDepartment/pages/InstructorDetails'
 
 
 // Updated Workflow
@@ -44,6 +46,9 @@ function App() {
           {/* head of department pages */}
           <Route path='lecturer/head_of_department/department_info' element={< DepartmentInfo />} loader={departmentInfoPageLoader} />
           <Route path='lecturer/head_of_department/department_details' element={< DeptDetails />} />
+          <Route path='lecturer/head_of_department/student_details' element={< StudentDetails />} />
+          <Route path='lecturer/head_of_department/instructor_details' element={< InstructorDetails />} />
+          {/* 404 page */}
 
 
         </Route>
