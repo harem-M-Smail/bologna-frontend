@@ -20,6 +20,9 @@ import DepartmentInfo, { departmentInfoPageLoader } from './users/headOfDepartme
 import DeptDetails from './users/headOfDepartment/DeptDetails'
 import StudentDetails from './users/headOfDepartment/studentDetails'
 import InstructorDetails from './users/headOfDepartment/pages/InstructorDetails'
+import AccessControlPage from './users/headOfDepartment/AcessControlPage'
+import AccountantProfilePage, { AccountantprofilePageLoader } from './users/accountant/AccountantProfilePage'
+import Departments from './users/accountant/Departments'
 
 
 // Updated Workflow
@@ -48,9 +51,12 @@ function App() {
           <Route path='lecturer/head_of_department/department_details' element={< DeptDetails />} />
           <Route path='lecturer/head_of_department/student_details' element={< StudentDetails />} />
           <Route path='lecturer/head_of_department/instructor_details' element={< InstructorDetails />} />
+          <Route path='lecturer/head_of_department/access_control' element={< AccessControlPage />} />
+          {/*  accountant pages */}
+          <Route path='accountant/Profile' element={< AccountantProfilePage />} loader={AccountantprofilePageLoader} />
+          <Route path='accountant/departments' element={< Departments />} />
+
           {/* 404 page */}
-
-
         </Route>
         <Route path='*' element={<NotFound />} />
         <Route path='/login' element={<LoginPage />} />

@@ -33,10 +33,18 @@ const Root: React.FC = () => {
             user: 'Department Head',
             links: [
                 { name: 'Dept Info', path: 'lecturer/head_of_department/department_info', key: 20 },
-                { name: 'Dept Details', path: 'lecturer/head_of_department/department_details', key: 21 }
+                { name: 'Dept Details', path: 'lecturer/head_of_department/department_details', key: 21 },
+                { name: 'Access Control', path: 'lecturer/head_of_department/access_control', key: 22 }
 
             ],
-        }
+        },
+        {
+            user: 'Accountant',
+            links: [
+                { name: 'Home', path: '/', key: 31 },
+                { name: 'Departments', path: '/accountant/departments', key: 32 },
+            ],
+        },
     ]
     const {
         token: { colorBgContainer, borderRadiusLG },
