@@ -145,7 +145,12 @@ const UpgradeDegrees = () => {
         }
     };
     return <div>
-        <Button onClick={onsubmit}>Submit</Button>
+        <div className="submition-button-container">
+            <Button
+                className="degree-submit-button"
+                onClick={onsubmit}
+            >Update</Button>
+        </div>
         {
             dataSource.length > 0 &&
             <Table dataSource={dataSource} columns={column} pagination={false} />

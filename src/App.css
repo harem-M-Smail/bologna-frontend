@@ -55,3 +55,17 @@
   border: 1px solid grey !important;
   color: white !important;
 }
+
+.degree-submit-button {
+  background: #16C47F;
+  border: 1px solid #16C47F;
+  color: white;
+  font-weight: bold;
+}
+
+.submition-button-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 0.5rem;
+}
