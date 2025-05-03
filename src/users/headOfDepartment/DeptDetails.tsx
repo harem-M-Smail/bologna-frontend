@@ -213,7 +213,8 @@ const DeptDetails = () => {
                 columns={columns[type]}
                 rowKey="id"
                 pagination={false}
-                scroll={{ x: 1200 }} // Enable horizontal scrolling
+                scroll={{ x: 1200, y: "60vh" }} // Enable horizontal scrolling
+
                 onRow={(record) => ({
                     onClick: () => {
                         if (type === "students") {

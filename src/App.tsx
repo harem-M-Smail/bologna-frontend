@@ -8,7 +8,6 @@ import NotFound from './pages/support-pages/NotFound'
 import ErrorPage from './pages/support-pages/ErrorPage'
 import ModulesDegreePage, { ModulesDegreeLoader } from './pages/modules-degree/ModulesDegreePage'
 import ProfilePage, { profilePageLoader } from './pages/profile/ProfilePage'
-import HomePage from './pages/home/HomePage'
 import EnrollementPage, { enrollmentPageLoader } from './pages/Enrollment/EnrollmentPage'
 import ExamsPage, { examsPageLoader } from './pages/exams/ExamsPage'
 import LecturerProfilePage, { lecturerProfilePageLoader } from './users/lecturer/pages/LecturerProfilePage'
@@ -23,6 +22,7 @@ import InstructorDetails from './users/headOfDepartment/pages/InstructorDetails'
 import AccessControlPage from './users/headOfDepartment/AcessControlPage'
 import AccountantProfilePage, { AccountantprofilePageLoader } from './users/accountant/AccountantProfilePage'
 import Departments from './users/accountant/Departments'
+import HomePage, { homePageLoader } from './pages/home/HomePage'
 
 
 // Updated Workflow
@@ -35,7 +35,7 @@ function App() {
     createRoutesFromElements(
       <>
         <Route path="/" element={<Root />} loader={rootLoader} errorElement={<ErrorPage />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<HomePage />} loader={homePageLoader} />
           <Route path='/student/semesters_degree' element={<ResultsPage />} loader={resultsLoader} />
           <Route path='/student/Modules' element={<EnrollementPage />} loader={enrollmentPageLoader} />
           <Route path='/student/profile' element={<ProfilePage />} loader={profilePageLoader} />
