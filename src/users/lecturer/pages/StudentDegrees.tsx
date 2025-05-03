@@ -76,7 +76,7 @@ const StudentDegrees = () => {
     const columns = studentsDegrees.length > 0 && moduleWeightInfo.length > 0
         ? [
             {
-                ...columnItem("Name", "name", "name"),
+                ...columnItem("Name", "name", "name"), fixed: "left",
                 ...getColumnSearchProps("name"),
             },
             ...studentsDegrees[0].activities.map((task, i) =>
@@ -95,6 +95,9 @@ const StudentDegrees = () => {
                 title: "Total",
                 dataIndex: "totalDegree",
                 key: "totalDegree",
+                fixed: "right",
+
+                sorter: (a, b) => a.totalDegree - b.totalDegree,
             },
         ]
         : [];
@@ -129,7 +132,7 @@ const StudentDegrees = () => {
                     <div style={{ textAlign: "center", marginBottom: "20px" }}>
                         <Select
                             defaultValue={subject}
-                            style={{ width: 200 }}
+                            style={{ width: 200, margin: "1rem" }}
                             onChange={(value) => {
                                 setSubject(value);
                             }}
@@ -142,6 +145,8 @@ const StudentDegrees = () => {
                             dataSource={dataSource}
                             columns={columns}
                             pagination={false}
+                            scroll={{ x: 'max-content' }}
+
                         />
                     </div>
                 </>

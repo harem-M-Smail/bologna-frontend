@@ -25,7 +25,7 @@ const HomePage = () => {
                                 textAlign: "center",
                             }}
                         >
-                            <p style={{ fontSize: "16px", fontWeight: "bold" }}>
+                            <p style={{ fontSize: "16px", fontWeight: "bold", color: "#27548A" }}>
                                 Departments: {college.numberOfDepartment}
                             </p>
                         </Card>

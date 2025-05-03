@@ -1,11 +1,10 @@
 import { Button, InputNumber, Table } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { redirect, useLocation } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 
 const UpgradeDegrees = () => {
-
-    // Get the URL parameters
+    const nav = useNavigate()
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const moduleId = queryParams.get("module-id");
@@ -76,7 +75,6 @@ const UpgradeDegrees = () => {
                 })
             )
             setInstructorWeight(studentData[0].activities.find(task => task.taskId.toString() == taskId && task.taskNumber == taskNumber).instructorWeight)
-            console.log(studentData[0].activities.find(task => task.taskId.toString() == taskId && task.taskNumber == taskNumber).instructorWeight)
         };
         if (moduleId) {
             fetchData();
@@ -131,17 +129,20 @@ const UpgradeDegrees = () => {
             await axios.patch(`http://localhost:5083/api/Lecturer/update-degrees/${moduleId}`,
                 submitionData
             ).then((res) => {
-                if (res.status === 200) {
-                    alert("upgraded successfully");
+
+                if (res.status === 200 || res.status === 201 || res.status === 204) {
+                    nav("/lecturer/student-degrees")
                 } else {
                     if (res.status === 401) {
                         return redirect("/login");
                     }
+                    console.log("else", res);
                     return res.data;
                 }
             });
         } catch (e) {
             alert(e);
+            console.log("catch", e);
         }
     };
     return <div>

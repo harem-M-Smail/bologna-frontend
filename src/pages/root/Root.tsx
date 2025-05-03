@@ -1,9 +1,10 @@
 import React from 'react';
 import { Layout, Menu, theme } from 'antd';
-import { NavLink, Outlet, redirect, useLoaderData, useNavigation } from 'react-router-dom';
+import { NavLink, Outlet, redirect, useNavigation } from 'react-router-dom';
 import { Flex, Spin } from 'antd';
 import DropDown from './DropDown';
 import axios from 'axios';
+import systemLogo from "../../assets/logo/system-logo.png"
 const { Header, Content } = Layout;
 
 const Root: React.FC = () => {
@@ -77,7 +78,9 @@ const Root: React.FC = () => {
         <Layout style={{ minHeight: '100vh' }}>
             <Header style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="demo-logo" />
+                <img src={systemLogo} className='system-logo' />
                 <Menu
+
                     theme="dark"
                     mode="horizontal"
                     defaultSelectedKeys={['2']}

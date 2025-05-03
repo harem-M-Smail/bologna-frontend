@@ -1,6 +1,7 @@
 import React from 'react';
-import { Table, ConfigProvider, Flex } from 'antd';
+import { Table, ConfigProvider, Flex, Typography } from 'antd';
 import type { TableProps } from 'antd';
+const { Text } = Typography;
 
 
 const columns: TableProps<DataType>['columns'] = [
@@ -13,6 +14,9 @@ const columns: TableProps<DataType>['columns'] = [
         title: 'Mark',
         dataIndex: 'degreeLevel',
         key: 'key',
+        render: (text) => (
+            <Text style={{ color: text === 'F' ? 'red' : 'inherit' }}>{text}</Text>
+        ),
     },
 ];
 const ResultTable: React.FC = ({ result }) => {
